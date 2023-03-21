@@ -89,6 +89,12 @@ namespace Microsoft.Health.Fhir.CosmosDb.Features.Storage
 
         private async Task<int> GetPhysicalPartitionCount(CancellationToken cancellationToken)
         {
+            if (_dataStoreConfiguration.UseManagedIdentity)
+            {
+                // Not supported
+                return 0;
+            }
+
             using HttpClient client = _httpClientFactory.CreateClient();
 
             string host = _dataStoreConfiguration.Host;
